@@ -8,6 +8,9 @@
     "hostingPlanName": {
       "type": "string"
     },
+    "siteLocation": {
+      "type": "string"
+    },
     "repoUrl": {
       "type": "string"
     },
@@ -26,7 +29,7 @@
     {
       "name": "[variables('sqlserverName')]",
       "type": "Microsoft.Sql/servers",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('siteLocation')]",
       "tags": {
         "displayName": "SqlServer"
       },
@@ -39,7 +42,7 @@
         {
           "name": "NationalCookiesDB",
           "type": "databases",
-          "location": "[resourceGroup().location]",
+          "location": "[parameters('siteLocation')]",
           "tags": {
             "displayName": "Database"
           },
@@ -60,10 +63,10 @@
           "dependsOn": [
             "[resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))]"
           ],
-          "location": "[resourceGroup().location]",
+          "location": "[parameters('siteLocation')]",
           "name": "AllowAllWindowsAzureIps",
           "properties": {
-            "endIpAddress": "0.0.0.0",
+            "endIpAddress": "255.255.255.255",
             "startIpAddress": "0.0.0.0"
           }
         }
@@ -73,7 +76,7 @@
       "apiVersion": "2015-08-01",
       "name": "[parameters('hostingPlanName')]",
       "type": "Microsoft.Web/serverfarms",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('siteLocation')]",
       "tags": {
         "displayName": "HostingPlan"
       },
@@ -89,7 +92,7 @@
       "apiVersion": "2015-08-01",
       "name": "[variables('webSiteName')]",
       "type": "Microsoft.Web/sites",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('siteLocation')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverFarms/', parameters('hostingPlanName'))]"
       ],
@@ -98,6 +101,7 @@
         "displayName": "Website"
       },
       "properties": {
+        "name": "[variables('webSiteName')]",
         "name": "[variables('webSiteName')]",
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
       },
@@ -121,7 +125,7 @@
           "name": "web",
           "type": "sourcecontrols",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"           
+            "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]"
           ],
           "properties": {
             "RepoUrl": "[parameters('repoUrl')]",
