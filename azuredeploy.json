@@ -18,8 +18,8 @@
   "variables": {
     "webSiteName": "[parameters('siteName')]",
     "sqlserverName": "[concat('nationalcookiessql', uniqueString(resourceGroup().id))]",
-    "databaseAdministratorLogin": "cookieadmin",
-    "databaseAdministratorLoginPassword": "CookieAdmin12345"
+    "databaseAdministratorLogin": "monster",
+    "databaseAdministratorLoginPassword": "ILoveCookies12345"
 
   },
   "resources": [
