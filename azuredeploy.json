@@ -107,7 +107,7 @@
           ],
           "properties": {
             "CookieDBConnection": {
-              "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', parameters('databaseName'), ';User Id=', parameters('databaseAdministratorLogin'), '@', variables('sqlserverName'), ';Password=', parameters('databaseAdministratorLoginPassword'), ';')]",
+              "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', 'NationalCookiesDB', ';User Id=', parameters('databaseAdministratorLogin'), '@', variables('sqlserverName'), ';Password=', parameters('databaseAdministratorLoginPassword'), ';')]",
               "type": "SQLServer"
             }
           }
