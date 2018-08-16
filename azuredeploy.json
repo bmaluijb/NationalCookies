@@ -5,6 +5,12 @@
     "hostingPlanName": {
       "type": "string",
       "minLength": 1
+    },
+    "repoUrl": {
+      "type": "string"
+    },
+    "branch": {
+      "type": "string"
     }
   },
   "variables": {
