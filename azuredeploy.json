@@ -5,18 +5,14 @@
     "hostingPlanName": {
       "type": "string",
       "minLength": 1
-    },
-    "databaseAdministratorLogin": {
-      "type": "string"
-    },
-    "databaseAdministratorLoginPassword": {
-      "type": "securestring"
     }
-
   },
   "variables": {
     "webSiteName": "[concat('NationalCookies_Web', uniqueString(resourceGroup().id))]",
-    "sqlserverName": "[concat('nationalcookiessql', uniqueString(resourceGroup().id))]"
+    "sqlserverName": "[concat('nationalcookiessql', uniqueString(resourceGroup().id))]",
+    "databaseAdministratorLogin": "admin",
+    "databaseAdministratorLoginPassword": "12345"
+
   },
   "resources": [
     {
@@ -28,8 +24,8 @@
       },
       "apiVersion": "2014-04-01-preview",
       "properties": {
-        "databaseAdministratorLogin": "[parameters('databaseAdministratorLogin')]",
-        "databaseAdministratorLoginPassword": "[parameters('databaseAdministratorLoginPassword')]"
+        "databaseAdministratorLogin": "[variables('databaseAdministratorLogin')]",
+        "databaseAdministratorLoginPassword": "[variables('databaseAdministratorLoginPassword')]"
       },
       "resources": [
         {
@@ -107,7 +103,7 @@
           ],
           "properties": {
             "CookieDBConnection": {
-              "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', 'NationalCookiesDB', ';User Id=', parameters('databaseAdministratorLogin'), '@', variables('sqlserverName'), ';Password=', parameters('databaseAdministratorLoginPassword'), ';')]",
+              "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', 'NationalCookiesDB', ';User Id=', variables('databaseAdministratorLogin'), '@', variables('sqlserverName'), ';Password=', variables('databaseAdministratorLoginPassword'), ';')]",
               "type": "SQLServer"
             }
           }
