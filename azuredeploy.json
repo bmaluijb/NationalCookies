@@ -8,28 +8,28 @@
     "hostingPlanName": {
       "type": "string"
     },
-    "siteLocation": {
-      "type": "string"
-    },
-    "sku": {
-      "type": "string",
-      "allowedValues": [
-        "Free",
-        "Shared",
-        "Basic",
-        "Standard"
-      ],
-      "defaultValue": "Free"
-    },
-    "workerSize": {
-      "type": "string",
-      "allowedValues": [
-        "0",
-        "1",
-        "2"
-      ],
-      "defaultValue": "0"
-    },
+    //"siteLocation": {
+    //  "type": "string"
+    //},
+    //"sku": {
+    //  "type": "string",
+    //  "allowedValues": [
+    //    "Free",
+    //    "Shared",
+    //    "Basic",
+    //    "Standard"
+    //  ],
+    //  "defaultValue": "Free"
+    //},
+    //"workerSize": {
+    //  "type": "string",
+    //  "allowedValues": [
+    //    "0",
+    //    "1",
+    //    "2"
+    //  ],
+    //  "defaultValue": "0"
+    //},
     "repoUrl": {
       "type": "string"
     },
@@ -138,6 +138,20 @@
               "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', 'NationalCookiesDB', ';User Id=', variables('databaseAdministratorLogin'), '@', variables('sqlserverName'), ';Password=', variables('databaseAdministratorLoginPassword'), ';')]",
               "type": "SQLServer"
             }
+          }
+        },
+        {
+          "apiVersion": "2014-04-01",
+          "name": "web",
+          "type": "sourcecontrols",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/Sites', parameters('siteName'))]",
+            "[concat('Microsoft.Web/Sites/', parameters('siteName'), '/config/web')]"
+          ],
+          "properties": {
+            "RepoUrl": "[parameters('repoUrl')]",
+            "branch": "[parameters('branch')]",
+            "IsManualIntegration": true
           }
         }
       ]
