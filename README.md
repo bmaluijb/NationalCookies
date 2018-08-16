@@ -22,3 +22,7 @@ The solution consists of:
 		 - (InternationalCookies.Deploy-Region)
 	 - For the creation of the Logic App
 		 - (InternationalCookies.Deploy-Global)
+		 
+		 
+		 
+[![Deploy to Azure](https://azuredeploy.net/deploybutton.svg)](https://azuredeploy.net/)
