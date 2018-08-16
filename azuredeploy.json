@@ -2,9 +2,33 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "siteName": {
+      "type": "string"
+    },
     "hostingPlanName": {
+      "type": "string"
+    },
+    "siteLocation": {
+      "type": "string"
+    },
+    "sku": {
       "type": "string",
-      "minLength": 1
+      "allowedValues": [
+        "Free",
+        "Shared",
+        "Basic",
+        "Standard"
+      ],
+      "defaultValue": "Free"
+    },
+    "workerSize": {
+      "type": "string",
+      "allowedValues": [
+        "0",
+        "1",
+        "2"
+      ],
+      "defaultValue": "0"
     },
     "repoUrl": {
       "type": "string"
@@ -14,7 +38,9 @@
     }
   },
   "variables": {
-    "webSiteName": "[concat('NationalCookies_Web', uniqueString(resourceGroup().id))]",
+    "webSiteName": "[parameters('siteName')]",
+    //"webSiteName": "[concat('NationalCookies_Web', uniqueString(resourceGroup().id))]",
+
     "sqlserverName": "[concat('nationalcookiessql', uniqueString(resourceGroup().id))]",
     "databaseAdministratorLogin": "admin",
     "databaseAdministratorLoginPassword": "12345"
