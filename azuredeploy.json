@@ -11,15 +11,12 @@
     },
     "databaseAdministratorLoginPassword": {
       "type": "securestring"
-    },
-    "databaseName": {
-      "type": "string"
     }
 
   },
   "variables": {
-    "webSiteName": "[concat('webSite', uniqueString(resourceGroup().id))]",
-    "sqlserverName": "[concat('sqlserver', uniqueString(resourceGroup().id))]"
+    "webSiteName": "[concat('NationalCookies_Web', uniqueString(resourceGroup().id))]",
+    "sqlserverName": "[concat('nationalcookiessql', uniqueString(resourceGroup().id))]"
   },
   "resources": [
     {
@@ -36,7 +33,7 @@
       },
       "resources": [
         {
-          "name": "[parameters('databaseName')]",
+          "name": "NationalCookiesDB",
           "type": "databases",
           "location": "[resourceGroup().location]",
           "tags": {
