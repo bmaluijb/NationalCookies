@@ -54,6 +54,19 @@
           }
         },
         {
+          "name": "AllowAllIps",
+          "type": "firewallrules",
+          "location": "[parameters('siteLocation')]",
+          "apiVersion": "2014-04-01-preview",
+          "dependsOn": [
+            "[resourceId('Microsoft.Sql/servers', variables('sqlserverName'))]"
+          ],
+          "properties": {
+            "startIpAddress": "0.0.0.0",
+            "endIpAddress": "255.255.255.255"
+          }
+        },
+        {
           "name": "NationalCookiesDB",
           "type": "databases",
           "location": "[parameters('siteLocation')]",
@@ -103,7 +116,6 @@
       },
       "properties": {
         "name": "[variables('webSiteName')]",
-        "name": "[variables('webSiteName')]",
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
       },
       "resources": [
@@ -119,6 +131,22 @@
               "value": "[concat('Data Source=tcp:', reference(resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))).fullyQualifiedDomainName, ',1433;Initial Catalog=', 'NationalCookiesDB', ';User Id=', variables('databaseAdministratorLogin'), '@', variables('sqlserverName'), ';Password=', variables('databaseAdministratorLoginPassword'), ';')]",
               "type": "SQLServer"
             }
+          }
+        },
+        {
+          "apiVersion": "2014-04-01",
+          "type": "config",
+          "name": "web",
+          "dependsOn": [
+            "[concat('Microsoft.Web/Sites/', parameters('webSiteName'))]"
+          ],
+          "properties": {
+            "appSettings": [
+              {
+                "name": "SCM_COMMAND_IDLE_TIMEOUT",
+                "value": "500"
+              }
+            ]
           }
         },
         {
