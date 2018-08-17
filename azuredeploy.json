@@ -19,11 +19,9 @@
     }
   },
   "variables": {
-    "webSiteName": "[parameters('siteName')]",
     "sqlserverName": "[concat('nationalcookiessql', uniqueString(resourceGroup().id))]",
     "databaseAdministratorLogin": "monster",
     "databaseAdministratorLoginPassword": "ILoveCookies12345"
-
   },
   "resources": [
     {
@@ -104,7 +102,7 @@
     },
     {
       "apiVersion": "2015-08-01",
-      "name": "[variables('webSiteName')]",
+      "name": "[parameters('siteName')]",
       "type": "Microsoft.Web/sites",
       "location": "[parameters('siteLocation')]",
       "dependsOn": [
@@ -115,7 +113,7 @@
         "displayName": "Website"
       },
       "properties": {
-        "name": "[variables('webSiteName')]",
+        "name": "[parameters('siteName')]",
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('hostingPlanName'))]"
       },
       "resources": [
@@ -124,7 +122,7 @@
           "type": "config",
           "name": "connectionstrings",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/Sites/', variables('webSiteName'))]"
+            "[resourceId('Microsoft.Web/Sites/', parameters('siteName'))]"
           ],
           "properties": {
             "CookieDBConnection": {
@@ -138,7 +136,7 @@
           "type": "config",
           "name": "web",
           "dependsOn": [
-            "[concat('Microsoft.Web/Sites/', variables('webSiteName'))]"
+            "[concat('Microsoft.Web/Sites/', parameters('siteName'))]"
           ],
           "properties": {
             "appSettings": [
