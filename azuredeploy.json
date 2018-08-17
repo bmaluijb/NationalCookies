@@ -8,7 +8,7 @@
     "hostingPlanName": {
       "type": "string"
     },
-    "siteLocation": {
+    "resourcegroupLocation": {
       "type": "string"
     },
     "repoUrl": {
@@ -29,45 +29,46 @@
     {
       "name": "[variables('sqlserverName')]",
       "type": "Microsoft.Sql/servers",
-      "location": "[parameters('siteLocation')]",
-      "tags": {
-        "displayName": "SqlServer"
-      },
+      "location": "[parameters('resourcegroupLocation')]",
       "apiVersion": "2014-04-01-preview",
+      "dependsOn": [],
+      "tags": {
+        "displayName": "Azure SQL Server"
+      },
       "properties": {
-        "databaseAdministratorLogin": "[variables('databaseAdministratorLogin')]",
-        "databaseAdministratorLoginPassword": "[variables('databaseAdministratorLoginPassword')]"
+        "administratorLogin": "[variables('databaseAdministratorLogin')]",
+        "administratorLoginPassword": "[variables('databaseAdministratorLoginPassword')]"
       },
       "resources": [
         {
-          "name": "NationalCookiesDB",
-          "type": "databases",
-          "location": "[parameters('siteLocation')]",
-          "tags": {
-            "displayName": "Database"
-          },
+          "name": "AllowAllWindowsAzureIps",
+          "type": "firewallrules",
+          "location": "[parameters('resourcegroupLocation')]",
           "apiVersion": "2014-04-01-preview",
           "dependsOn": [
-            "[resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))]"
+            "[resourceId('Microsoft.Sql/servers', variables('sqlserverName'))]"
           ],
           "properties": {
-            "edition": "Basic",
-            "collation": "SQL_Latin1_General_CP1_CI_AS",
-            "maxSizeBytes": "1073741824",
-            "requestedServiceObjectiveName": "Basic"
+            "startIpAddress": "0.0.0.0",
+            "endIpAddress": "0.0.0.0"
           }
         },
         {
-          "type": "firewallrules",
+          "name": "NationalCookiesDB",
+          "type": "databases",
+          "location": "[parameters('resourcegroupLocation')]",
           "apiVersion": "2014-04-01-preview",
           "dependsOn": [
-            "[resourceId('Microsoft.Sql/servers/', variables('sqlserverName'))]"
+            "[resourceId('Microsoft.Sql/servers', variables('sqlserverName'))]"
           ],
-          "location": "[parameters('siteLocation')]",
-          "name": "AllowAllWindowsAzureIps",
+          "tags": {
+            "displayName": "Database"
+          },
           "properties": {
-            "endIpAddress": "255.255.255.255",
-            "startIpAddress": "0.0.0.0"
+            "collation": "SQL_Latin1_General_CP1_CI_AS",
+            "edition": "Basic",
+            "maxSizeBytes": "1073741824",
+            "requestedServiceObjectiveName": "Basic"
           }
         }
       ]
@@ -76,7 +77,7 @@
       "apiVersion": "2015-08-01",
       "name": "[parameters('hostingPlanName')]",
       "type": "Microsoft.Web/serverfarms",
-      "location": "[parameters('siteLocation')]",
+      "location": "[parameters('resourcegroupLocation')]",
       "tags": {
         "displayName": "HostingPlan"
       },
@@ -92,7 +93,7 @@
       "apiVersion": "2015-08-01",
       "name": "[variables('webSiteName')]",
       "type": "Microsoft.Web/sites",
-      "location": "[parameters('siteLocation')]",
+      "location": "[parameters('resourcegroupLocation')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverFarms/', parameters('hostingPlanName'))]"
       ],
