@@ -8,7 +8,7 @@
     "hostingPlanName": {
       "type": "string"
     },
-    "resourcegroupLocation": {
+    "siteLocation": {
       "type": "string"
     },
     "repoUrl": {
@@ -29,7 +29,7 @@
     {
       "name": "[variables('sqlserverName')]",
       "type": "Microsoft.Sql/servers",
-      "location": "[parameters('resourcegroupLocation')]",
+      "location": "[parameters('siteLocation')]",
       "apiVersion": "2014-04-01-preview",
       "dependsOn": [],
       "tags": {
@@ -43,7 +43,7 @@
         {
           "name": "AllowAllWindowsAzureIps",
           "type": "firewallrules",
-          "location": "[parameters('resourcegroupLocation')]",
+          "location": "[parameters('siteLocation')]",
           "apiVersion": "2014-04-01-preview",
           "dependsOn": [
             "[resourceId('Microsoft.Sql/servers', variables('sqlserverName'))]"
@@ -56,7 +56,7 @@
         {
           "name": "NationalCookiesDB",
           "type": "databases",
-          "location": "[parameters('resourcegroupLocation')]",
+          "location": "[parameters('siteLocation')]",
           "apiVersion": "2014-04-01-preview",
           "dependsOn": [
             "[resourceId('Microsoft.Sql/servers', variables('sqlserverName'))]"
@@ -77,7 +77,7 @@
       "apiVersion": "2015-08-01",
       "name": "[parameters('hostingPlanName')]",
       "type": "Microsoft.Web/serverfarms",
-      "location": "[parameters('resourcegroupLocation')]",
+      "location": "[parameters('siteLocation')]",
       "tags": {
         "displayName": "HostingPlan"
       },
@@ -93,7 +93,7 @@
       "apiVersion": "2015-08-01",
       "name": "[variables('webSiteName')]",
       "type": "Microsoft.Web/sites",
-      "location": "[parameters('resourcegroupLocation')]",
+      "location": "[parameters('siteLocation')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverFarms/', parameters('hostingPlanName'))]"
       ],
