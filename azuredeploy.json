@@ -93,7 +93,7 @@
         "displayName": "HostingPlan"
       },
       "sku": {
-        "name": "B1",
+        "name": "S1",
         "capacity": "1"
       },
       "properties": {
