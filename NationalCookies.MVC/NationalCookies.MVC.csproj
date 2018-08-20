@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentCache.Microsoft.Extensions.Caching.Redis" Version="4.0.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 

@@ -1,26 +1,51 @@
-﻿using NationalCookies.Data.Interfaces;
+﻿using Microsoft.Extensions.Caching.Distributed;
+using NationalCookies.Data.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace NationalCookies.Data.Services
 {
     public class CookieService : ICookieService
     {
         private CookieContext _context;
+        private IDistributedCache _cache;
 
-        public CookieService(CookieContext context)
+        public CookieService(CookieContext context, IDistributedCache cache)
         {
             _context = context;
+            _cache = cache;
         }
 
         public List<Cookie> GetAllCookies()
         {
             List<Cookie> cookies;
+            
+            //first, try to get cookies from cache
+            var cachedCookies = _cache.GetString("cookies");
+            if (!string.IsNullOrEmpty(cachedCookies)){
 
-            //get the cookies from the database
-            cookies = _context.Cookies.ToList();
+                //if they are there, deserialize them
+                cookies = JsonConvert.DeserializeObject<List<Cookie>>(cachedCookies);
+            }
+            else
+            {
+                //if no cookies in are in cache yet, get them from the database
+                cookies = _context.Cookies.ToList();
+
+                DistributedCacheEntryOptions options = new DistributedCacheEntryOptions();
+                options.SetAbsoluteExpiration(new System.TimeSpan(0, 0, 15));
+
+                //and then, put them in cache
+                _cache.SetString("cookies", JsonConvert.SerializeObject(cookies), options);
+            }
 
             return cookies;
+        }
+
+        public void ClearCache()
+        {
+            _cache.Remove("cookies");
         }
     }
 }
