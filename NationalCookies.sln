@@ -12,10 +12,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NationalCookies.MVC", "NationalCookies.MVC\NationalCookies.MVC.csproj", "{4750FEA8-ACFE-4C8D-B714-6FD214BAF36B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF6574AF-86F4-4865-B980-2A5B11FE5021}"
-	ProjectSection(SolutionItems) = preProject
-		azuredeploy.json = azuredeploy.json
-		deploytoazure.json = deploytoazure.json
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
