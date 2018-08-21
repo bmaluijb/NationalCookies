@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace NationalCookies.Data
 {
+    [Serializable]
     public class Cookie
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

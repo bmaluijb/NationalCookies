@@ -11,7 +11,7 @@ namespace NationalCookies.Data.Services
         private CookieContext _context;
         private IDistributedCache _cache;
 
-        public CookieService(CookieContext context, IDistributedCache cache)
+        public CookieService(CookieContext context, IDistributedCache cache = null)
         {
             _context = context;
             _cache = cache;
@@ -21,6 +21,13 @@ namespace NationalCookies.Data.Services
         {
             List<Cookie> cookies;
             
+            //if njo cache is passed into the constructir
+            //of this service, just get the cookies from the database and return them
+            if(_cache == null)
+            {
+                return cookies = _context.Cookies.ToList();                
+            }
+
             //first, try to get cookies from cache
             var cachedCookies = _cache.GetString("cookies");
             if (!string.IsNullOrEmpty(cachedCookies)){
