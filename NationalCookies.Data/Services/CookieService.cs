@@ -21,7 +21,7 @@ namespace NationalCookies.Data.Services
         {
             List<Cookie> cookies;
             
-            //if njo cache is passed into the constructir
+            //if no cache is passed into the constructor
             //of this service, just get the cookies from the database and return them
             if(_cache == null)
             {
