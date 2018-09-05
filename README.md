@@ -5,7 +5,7 @@
 Hi! 
 
 Welcome to the GitHub repository of the nationalcookies application.
-This app is the demo app for the Pluralsight course [Microsoft Azure Developer: Implementing Azure Cache](https://app.pluralsight.com/profile/author/barry-luijbregts).
+This app is the demo app for the Pluralsight course [Microsoft Azure Developer: Implementing Azure Cache](https://app.pluralsight.com/library/courses/microsoft-azure-cache-implementing/).
 
 You can download a copy of the code and follow along in the course.
 
